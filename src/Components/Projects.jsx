@@ -127,7 +127,7 @@ const projects = () =>{
                 const my_dsc = document.getElementById("description");
                 gsap.to(my_dsc,{
                     x: get_position(element).x + 50,
-                    y: -get_position(element).y,
+                    y: 150-get_position(element).y,
                     
                     opacity:1
                 });
