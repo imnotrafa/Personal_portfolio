@@ -19,7 +19,7 @@ import Style from  "../styles/projects_style.module.css";
 import { useGSAP } from "@gsap/react";
 
 
-const My_projects = [{Image:TechoReal,Name:"TechoReal Catalog",Description:"A TV app"},{Image:Haccsternship,Name:"HaccsTernShip",Description:"python Discord bot that Scrapes the web"}, {Image:holder,Name:"Deloitte",Description:"project at deloitte"}];
+const My_projects = [{Image:TechoReal,Name:"Techo Real Catalog",Description:"Currently serving as the Lead Backend Developer for an ongoing project, I am actively engaged in the intricate development of a sophisticated web application built on the MERN stack. This dynamic platform is designed to elegantly showcase a diverse array of properties, meticulously tailored to meet specific user requirements."},{Image:Haccsternship,Name:"HaccsTernShip",Description:"Developed and deployed a Python-based serverless chatbot that consolidates the latest tech internships from various websites, delivering them seamlessly to a Discord server. Achieved a 20% boost in internship applications, enhancing user efficiency and enjoyment in the search process."}, {Image:holder,Name:"Auto-Attendance Tracker",Description:"AutoAttendanceTracker is a web application designed with HTML, JavaScript, and various Google APIs to streamline the sign-in process and automate attendance tracking for 160 students. Enhance efficiency and accuracy in attendance management effortlessly."}];
 
 
 
@@ -34,6 +34,7 @@ const projects = () =>{
    
     const [curr,setCurr] = useState(0);
     const [selected_img, setSelected] = useState(0);
+    const [clicked, setClicked] = useState(false);
 
     const cleaning = (direction) => {
         if (direction < 0){
@@ -102,27 +103,43 @@ const projects = () =>{
             
             gsap.timeline(
                 {onStart: () =>{
-                    gsap.to(".description",{opacity:0});
+                    gsap.to("#description",{opacity:0});
+                },
+                onComplete: () =>{
+                    setClicked(false);
                 }}
             
             ).to(images[selected_img],{x:0})
             .to(images[get_prev(selected_img)],{y:0,opacity:1})
             .to(images[get_next(selected_img)],{y:0,opacity:1})
-            selected_img(5);     
    })
    //call another function to display information;
-   const apply_animation = contextSafe((value,position) =>{
-        setSelected(value);       
-        const images = gsap.utils.toArray(".img");
-        gsap.timeline({onComplete : () =>{
-            const my_dsc = document.getElementById("description");
-            gsap.to(my_dsc,{
-                opacity:1
-            })
-        }})
-        .to(images[get_prev(selected_img)],{y:-500,opacity:0})
-        .to(images[get_next(selected_img)],{y:-500,opacity:0})
-        .to(images[selected_img],{x:(50 - position.x)})
+   const apply_animation = contextSafe((value,element) =>{
+
+        if(clicked==true){
+            reverse();
+        }
+        else{
+            const position = get_position(element);
+            setSelected(value);       
+            const images = gsap.utils.toArray(".img");
+            gsap.timeline({onComplete : () =>{
+                const my_dsc = document.getElementById("description");
+                gsap.to(my_dsc,{
+                    y: -200,
+                    opacity:1
+                });
+                setClicked(true);
+            }})
+            .to(images[get_prev(value)],{y:-500,opacity:0})
+            .to(images[get_next(value)],{y:-500,opacity:0})
+            .to(images[value],{x:(50 - position.x)})
+
+        }
+        
+
+        
+        
         
    })
 
@@ -133,25 +150,24 @@ const projects = () =>{
 
     return (
         <>  
-            <h1>Projects</h1>
-            <div className={Style.main}>
+            <h1 className={Style.main_header}>Projects</h1>
+            <div className={Style.main} ref={container}>
                 <div className={Style.img_o_container}>
-                        <div className={Style.img_container} ref={container}>
-                            <img onClick={() => apply_animation(0,get_position(document.getElementById("img1")))} src={My_projects[0].Image} alt="nofound" id="img1" className="img" />
+                        <div className={Style.img_container} >
+                            <img onClick={() => apply_animation(0,document.getElementById("img1"))} src={My_projects[0].Image} alt="nofound" id="img1" className="img" value="False" />
                             
-                            <img onClick={() => apply_animation(1,get_position(document.getElementById("img2")))} src={My_projects[1].Image} alt="nofound" id="img2"  className="img"/>
+                            <img onClick={() => apply_animation(1,document.getElementById("img2"))} src={My_projects[1].Image} alt="nofound" id="img2"  className="img" value="False"/>
                             
-                            <img  onClick={() => apply_animation(2,get_position(document.getElementById("img3")))} src={My_projects[2].Image} alt="nofound" id="img3" className="img" />
+                            <img  onClick={() => apply_animation(2,document.getElementById("img3"))} src={My_projects[2].Image} alt="nofound" id="img3" className="img" value="False" />
                         </div>
                     
                 </div>
                 <div id="description" className={Style.description}>
                     <h1 className={Style.description_name}>{My_projects[selected_img].Name}</h1>
-                    <div> 
+                    <div className={Style.dsc}> 
                         <p className={Style.description_dsc}>{My_projects[selected_img].Description}</p>
                     </div>    
                 </div> 
-                <button onClick={reverse}>exit</button>
             </div>
 
             
