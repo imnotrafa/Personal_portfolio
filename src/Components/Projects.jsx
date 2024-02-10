@@ -103,7 +103,8 @@ const projects = () =>{
             
             gsap.timeline(
                 {onStart: () =>{
-                    gsap.to("#description",{opacity:0});
+                    gsap.to("#description",{opacity:0,
+                    x:0,y:0});
                 },
                 onComplete: () =>{
                     setClicked(false);
