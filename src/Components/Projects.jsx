@@ -126,7 +126,9 @@ const projects = () =>{
             gsap.timeline({onComplete : () =>{
                 const my_dsc = document.getElementById("description");
                 gsap.to(my_dsc,{
-                    y: -200,
+                    x: get_position(element).x + 50,
+                    y: get_position(element).y - 350,
+                    
                     opacity:1
                 });
                 setClicked(true);
