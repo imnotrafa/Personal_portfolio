@@ -7,12 +7,12 @@
 }
 
 .img_o_container {
+    padding-top: 100px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    height: 100vh; /* Adjust the height as needed */
-}
+    align-items: stretch;
+  }
 .main_header{
     font-size: 50px;
 }
@@ -24,12 +24,15 @@
     height: fit-content;
     justify-content: center; /* Add this line to center horizontally */
     align-items: center; /* Add this line to center vertically */
+    width: fit-content;
 }
 .img_container img {
-    width: 100%;
-    height: auto;
+    width: 33.33%;
+    height: 20%;
     border-radius: 15%;
     box-shadow: 0 0 100px 10px #BE6380;
+    object-fit: cover;
+
 }
 .img_container > img:nth-child(2) {
     transform: translate(2%, -3.5%);
@@ -93,12 +96,15 @@
 
 .description{
    
-    position: relative;
-    top:-500px;
+    position: absolute;
     opacity: 0;
     text-align: center;
     font-family: 'Source Code Pro', monospace;
+   
     
+   
+
+  
 }
 
 .dsc{
@@ -110,4 +116,9 @@
 .description h1{
     text-align: left;
     font-size: 45px;
+}
+
+.main{
+    max-width: max-content;
+    height: fit-content;
 }

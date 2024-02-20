@@ -103,8 +103,8 @@ const projects = () =>{
             
             gsap.timeline(
                 {onStart: () =>{
-                    gsap.to("#description",{opacity:0,
-                    x:0,y:0});
+                    gsap.to("#description",{opacity:0,paddingLeft:0
+                    });
                 },
                 onComplete: () =>{
                     setClicked(false);
@@ -117,19 +117,22 @@ const projects = () =>{
    //call another function to display information;
    const apply_animation = contextSafe((value,element) =>{
 
+
         if(clicked==true){
             reverse();
         }
         else{
             const position = get_position(element);
+            //console.log("before:",position)
             setSelected(value);       
             const images = gsap.utils.toArray(".img");
             gsap.timeline({onComplete : () =>{
                 const my_dsc = document.getElementById("description");
+                let new_position=get_position(element);
                 gsap.to(my_dsc,{
-                    x: get_position(element).x + 50,
-                    y: 150-get_position(element).y,
                     
+                    //display relative to the image location regardless of where it is 
+                    paddingLeft: (10*(parseInt(get_position(element).x))),
                     opacity:1
                 });
                 setClicked(true);
@@ -139,10 +142,7 @@ const projects = () =>{
             .to(images[value],{x:(50 - position.x)})
 
         }
-        
-
-        
-        
+       
         
    })
 
@@ -153,24 +153,28 @@ const projects = () =>{
 
     return (
         <>  
-            <h1 className={Style.main_header}>Projects</h1>
+            <h1 className={Style.main_header} id="header">Projects</h1>
             <div className={Style.main} ref={container}>
                 <div className={Style.img_o_container}>
-                        <div className={Style.img_container} >
-                            <img onClick={() => apply_animation(0,document.getElementById("img1"))} src={My_projects[0].Image} alt="nofound" id="img1" className="img" value="False" />
-                            
-                            <img onClick={() => apply_animation(1,document.getElementById("img2"))} src={My_projects[1].Image} alt="nofound" id="img2"  className="img" value="False"/>
-                            
-                            <img  onClick={() => apply_animation(2,document.getElementById("img3"))} src={My_projects[2].Image} alt="nofound" id="img3" className="img" value="False" />
-                        </div>
+                    <div className={Style.img_container} >
+                        <img onClick={() => apply_animation(0,document.getElementById("img1"))} src={My_projects[0].Image} alt="nofound" id="img1" className="img" value="False" />
+                        
+                        <img onClick={() => apply_animation(1,document.getElementById("img2"))} src={My_projects[1].Image} alt="nofound" id="img2"  className="img" value="False"/>
+                        
+                        <img  onClick={() => apply_animation(2,document.getElementById("img3"))} src={My_projects[2].Image} alt="nofound" id="img3" className="img" value="False" />
+                    
+                        <div id="description" className={Style.description}>
+                            <h1 className={Style.description_name}>{My_projects[selected_img].Name}</h1>
+                            <div className={Style.dsc}> 
+                                <p className={Style.description_dsc}>{My_projects[selected_img].Description}</p>
+                            </div>    
+                        </div> 
+                    
+                    </div>
+                   
                     
                 </div>
-                <div id="description" className={Style.description}>
-                    <h1 className={Style.description_name}>{My_projects[selected_img].Name}</h1>
-                    <div className={Style.dsc}> 
-                        <p className={Style.description_dsc}>{My_projects[selected_img].Description}</p>
-                    </div>    
-                </div> 
+                
             </div>
 
             
